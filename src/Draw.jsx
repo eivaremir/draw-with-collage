@@ -3,6 +3,19 @@ import "./App.css";
 
 import { getStroke } from "perfect-freehand";
 
+import { db } from "./db";
+import { ref, set } from 'firebase/database';
+
+// Generate a random UUID 
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+    .replace(/[xy]/g, function (c) {
+      const r = Math.random() * 16 | 0,
+        v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+}
+
 const options = {
   size: 32,
   thinning: 0.5,
@@ -81,10 +94,21 @@ function Draw() {
   //const pathData = getSvgPathFromStroke(stroke);
 
   const addPicture = () => {
-    alert("added new path");
+
+    var uuid = uuidv4();
+
+    set(ref(db, '/rooms/id1/pictures/' + uuid), pathDatum)
+      .then(() => {
+        console.log('Data written successfully');
+
+      })
+      .catch((error) => {
+        console.error('Error writing data:', error);
+      });
 
     setPoints([[[]]]);
     setPathDatum([]);
+
   };
   return (
     <div>
