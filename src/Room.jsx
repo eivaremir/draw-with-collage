@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-
+import { useParams } from 'react-router-dom';
 import './App.css'
 
 import { getStroke } from 'perfect-freehand'
@@ -11,6 +11,7 @@ import { ref, set, child, get, onValue } from 'firebase/database';
 
 
 function Room() {
+  const { t, id} = useParams()
   const [pictures, setPictures] = useState([
     []
   ]);
@@ -63,6 +64,7 @@ function Room() {
   };
   useEffect(() => {
     readPicture()
+    console.log(id)
   }, [])
   return (
     <div>
