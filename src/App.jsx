@@ -97,10 +97,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<span>hola</span>}>
-          <Route path="draw" element={<Draw />} />
-          <Route path="room" element={<Room />} />
-        </Route>
+        <Route path="/"></Route>
+        <Route path="draw/" element={<Draw />} />
+        <Route path="room" element={<Room />} />
       </Routes>
       {/* <Route exact path="/room" component={Home} /> */}
     </Router>
