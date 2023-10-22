@@ -28,7 +28,7 @@ const Home = () => {
         }}
       >
         {[1, 2, 3].map((room) => (
-          <Link to={`room/${room}`}  key={"r" + room}>
+          <Link to={`room/${room}`} key={"r" + room}>
             <button
               style={{
                 border: "1px solid #d9d9d9",
@@ -37,7 +37,6 @@ const Home = () => {
                 borderRadius: "10px",
                 cursor: "pointer",
               }}
-             
             >
               Room {room}
             </button>
@@ -52,18 +51,20 @@ const Home = () => {
         }}
       >
         {[1, 2, 3].map((room) => (
-          <button
-            style={{
-              border: "1px solid #d9d9d9",
-              background: "white",
-              padding: "7px 10px",
-              borderRadius: "10px",
-              cursor: "pointer",
-            }}
-            key={"r" + room}
-          >
-            Draw {room}
-          </button>
+          <Link to={`draw/${room}`} key={"d" + room}>
+            <button
+              style={{
+                border: "1px solid #d9d9d9",
+                background: "white",
+                padding: "7px 10px",
+                borderRadius: "10px",
+                cursor: "pointer",
+              }}
+              key={"r" + room}
+            >
+              Draw {room}
+            </button>
+          </Link>
         ))}
       </div>
     </div>

@@ -4,23 +4,27 @@ import "./App.css";
 import { getStroke } from "perfect-freehand";
 
 import { db } from "./db";
-import { ref, set } from 'firebase/database';
+import { ref, set } from "firebase/database";
+import {
+  TrashIcon,
+  DocumentPlusIcon,
+  ArrowPathIcon,
+} from "@heroicons/react/24/outline";
 
-// Generate a random UUID 
+// Generate a random UUID
 function uuidv4() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
-    .replace(/[xy]/g, function (c) {
-      const r = Math.random() * 16 | 0,
-        v = c == 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
-    });
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    const r = (Math.random() * 16) | 0,
+      v = c == "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
 }
 
 const options = {
-  size: 32,
-  thinning: 0.5,
-  smoothing: 0.5,
-  streamline: 0.5,
+  size: 10,
+  thinning: 1,
+  smoothing: 1,
+  streamline: 1,
   easing: (t) => t,
   start: {
     taper: 0,
@@ -53,6 +57,10 @@ function Draw() {
   //const [count, setCount] = useState(0)
   const [points, setPoints] = useState([[[]]]);
   const [pathDatum, setPathDatum] = useState([[]]);
+  const [pathColors, setPathColors] = useState([[]]);
+  const [loading, setLoading] = useState(false);
+  const [colors, setcolors] = useState(["#00FFFF", "#FF00FF", "#FFFF00", "#000000"]);
+  const [color, setcolor] = useState("#000000");
 
   function handlePointerDown(e) {
     console.log("pointer down");
@@ -64,10 +72,11 @@ function Draw() {
     } else {
       setPoints([[[e.pageX, e.pageY, e.pressure]]]);
     }
+    setPathColors([...pathColors,color])
   }
 
   function handlePointerMove(e) {
-    console.log("pointer move", e.buttons);
+    
     if (e.buttons !== 1) return;
 
     let p = points;
@@ -75,6 +84,8 @@ function Draw() {
     let curr_new = [...curr, [e.pageX, e.pageY, e.pressure]];
     //curr = curr_new
     p[points.length - 1] = curr_new;
+    
+    
 
     setPoints(p);
     setPathDatum(
@@ -92,38 +103,54 @@ function Draw() {
 
   //console.log(stroke)
   //const pathData = getSvgPathFromStroke(stroke);
-
-  const addPicture = () => {
-
-    var uuid = uuidv4();
-
-    set(ref(db, '/rooms/id1/pictures/' + uuid), pathDatum)
-      .then(() => {
-        console.log('Data written successfully');
-
-      })
-      .catch((error) => {
-        console.error('Error writing data:', error);
-      });
-
+  const clear = () => {
     setPoints([[[]]]);
     setPathDatum([]);
-
+    setPathColors([[]])
   };
+  const addPicture = () => {
+    setLoading(true);
+    var uuid = uuidv4();
+
+    set(ref(db, "/rooms/id1/pictures/" + uuid), pathDatum)
+      .then(() => {
+        console.log("Data written successfully");
+        setLoading(false);
+        clear();
+      })
+      .catch((error) => {
+        console.error("Error writing data:", error);
+      });
+  };
+  
   return (
     <div>
       <svg
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         style={{ touchAction: "none" }}
+        className="container"
       >
-        {pathDatum.map((path, index) => (
-          <path key={index} d={path} />
+        {pathDatum.map((path, i) => (
+          <path key={"p" + i} d={path} fill={pathColors[i]}/>
         ))}
       </svg>
-      <button onClick={addPicture} className="add-figure-button">
-        +
-      </button>
+      <div className="controls-down">
+        
+      {colors.map((color, i) => 
+            <button key={"color" + i} className="color" onClick={()=>{setcolor(color)}} style={{
+              background: color
+            }}/>
+          )}
+        <button onClick={clear} className="add-figure-button">
+          <TrashIcon />
+        </button>
+        <button onClick={addPicture} className="add-figure-button">
+          
+          {!loading && <DocumentPlusIcon />}
+          {loading && <ArrowPathIcon className="loadingIcon" />}
+        </button>
+      </div>
     </div>
   );
 }
