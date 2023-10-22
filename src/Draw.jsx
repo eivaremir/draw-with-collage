@@ -9,7 +9,9 @@ import {
   TrashIcon,
   DocumentPlusIcon,
   ArrowPathIcon,
+  ArrowSmallLeftIcon,
 } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 
 // Generate a random UUID
 function uuidv4() {
@@ -21,21 +23,21 @@ function uuidv4() {
 }
 
 const options = {
-  size: 10,
+  size: 15,
   thinning: 1,
   smoothing: 1,
   streamline: 1,
   easing: (t) => t,
-  start: {
-    taper: 0,
-    easing: (t) => t,
-    cap: true,
-  },
-  end: {
-    taper: 100,
-    easing: (t) => t,
-    cap: true,
-  },
+  // start: {
+  //   taper: 0,
+  //   easing: (t) => t,
+  //   cap: true,
+  // },
+  // end: {
+  //   taper: 100,
+  //   easing: (t) => t,
+  //   cap: true,
+  // },
 };
 function getSvgPathFromStroke(stroke) {
   if (!stroke.length) return "";
@@ -59,7 +61,12 @@ function Draw() {
   const [pathDatum, setPathDatum] = useState([[]]);
   const [pathColors, setPathColors] = useState([[]]);
   const [loading, setLoading] = useState(false);
-  const [colors, setcolors] = useState(["#00FFFF", "#FF00FF", "#FFFF00", "#000000"]);
+  const [colors, setcolors] = useState([
+    "#00FFFF",
+    "#FF00FF",
+    "#FFFF00",
+    "#000000",
+  ]);
   const [color, setcolor] = useState("#000000");
 
   function handlePointerDown(e) {
@@ -72,11 +79,10 @@ function Draw() {
     } else {
       setPoints([[[e.pageX, e.pageY, e.pressure]]]);
     }
-    setPathColors([...pathColors,color])
+    setPathColors([...pathColors, color]);
   }
 
   function handlePointerMove(e) {
-    
     if (e.buttons !== 1) return;
 
     let p = points;
@@ -84,8 +90,6 @@ function Draw() {
     let curr_new = [...curr, [e.pageX, e.pageY, e.pressure]];
     //curr = curr_new
     p[points.length - 1] = curr_new;
-    
-    
 
     setPoints(p);
     setPathDatum(
@@ -106,7 +110,7 @@ function Draw() {
   const clear = () => {
     setPoints([[[]]]);
     setPathDatum([]);
-    setPathColors([[]])
+    setPathColors([[]]);
   };
   const addPicture = () => {
     setLoading(true);
@@ -122,7 +126,7 @@ function Draw() {
         console.error("Error writing data:", error);
       });
   };
-  
+
   return (
     <div>
       <svg
@@ -132,21 +136,33 @@ function Draw() {
         className="container"
       >
         {pathDatum.map((path, i) => (
-          <path key={"p" + i} d={path} fill={pathColors[i]}/>
+          <path key={"p" + i} d={path} fill={pathColors[i]} />
         ))}
       </svg>
+      <div className="controls-up">
+        <Link to="/">
+          <button className="button">
+            <ArrowSmallLeftIcon />
+          </button>
+        </Link>
+      </div>
       <div className="controls-down">
-        
-      {colors.map((color, i) => 
-            <button key={"color" + i} className="color" onClick={()=>{setcolor(color)}} style={{
-              background: color
-            }}/>
-          )}
-        <button onClick={clear} className="add-figure-button">
+        {colors.map((color, i) => (
+          <button
+            key={"color" + i}
+            className="color"
+            onClick={() => {
+              setcolor(color);
+            }}
+            style={{
+              background: color,
+            }}
+          />
+        ))}
+        <button onClick={clear} className="button">
           <TrashIcon />
         </button>
-        <button onClick={addPicture} className="add-figure-button">
-          
+        <button onClick={addPicture} className="button">
           {!loading && <DocumentPlusIcon />}
           {loading && <ArrowPathIcon className="loadingIcon" />}
         </button>

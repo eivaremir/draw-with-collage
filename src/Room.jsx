@@ -8,8 +8,11 @@ import { getStroke } from 'perfect-freehand'
 import { db } from "./db";
 import { ref, set, child, get, onValue } from 'firebase/database';
 
-
-
+import { Link } from "react-router-dom";
+import {
+  
+  ArrowSmallLeftIcon,
+} from "@heroicons/react/24/outline";
 function Room() {
   const { t, id} = useParams()
   const [pictures, setPictures] = useState([
@@ -68,6 +71,13 @@ function Room() {
   }, [])
   return (
     <div>
+      <div className="controls-up">
+        <Link to="/">
+          <button  className="button">
+            <ArrowSmallLeftIcon />
+          </button>
+        </Link>
+      </div>
       <svg width={collageWidth} height={collageHeight} xmlns="http:/wwww3org/2000/svg">
         {createSVGCollage()}
       </svg>

@@ -24,14 +24,22 @@ svg.container {
 .controls-down{
   display: flex;
   position: fixed;
-  right: 70px;
-  bottom: 50px;
+  right: 20px;
+  bottom: 20px;
   gap: 7px
 }
-.controls-down svg{
+.controls-up{
+  display: flex;
+  position: fixed;
+  left: 20px;
+  top: 20px;
+  gap: 7px
+}
+
+.controls-down svg,.controls-up svg{
   width: .7em;
 }
-button.add-figure-button{
+button.button{
   color: white;
   border-radius: 50%;
   width: var(--buttons-size);
@@ -42,6 +50,7 @@ button.add-figure-button{
   /* font-weight: 700; */
   cursor: pointer;
   font-size: 2em;
+
 }
 @keyframes rotate {
   from {

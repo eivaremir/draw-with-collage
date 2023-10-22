@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+import { PencilIcon,EyeIcon } from "@heroicons/react/24/outline";
 const Home = () => {
   return (
     <div
@@ -28,7 +28,7 @@ const Home = () => {
         }}
       >
         {[1, 2, 3].map((room) => (
-          <Link to={`room/${room}`} key={"r" + room}>
+          <Link to={`room/${room}`} key={"r" + room} style={{textDecoration: "none"}}>
             <button
               style={{
                 border: "1px solid #d9d9d9",
@@ -36,9 +36,12 @@ const Home = () => {
                 padding: "7px 10px",
                 borderRadius: "10px",
                 cursor: "pointer",
+                display: 'flex',
+                gap: "7px",
+                justifyContent:"center"
               }}
             >
-              Room {room}
+              <EyeIcon style={{width: "1em"}}/> <span>{room}</span>
             </button>
           </Link>
         ))}
@@ -51,7 +54,7 @@ const Home = () => {
         }}
       >
         {[1, 2, 3].map((room) => (
-          <Link to={`draw/${room}`} key={"d" + room}>
+          <Link to={`draw/${room}`} key={"d" + room} style={{textDecoration: "none"}}>
             <button
               style={{
                 border: "1px solid #d9d9d9",
@@ -59,10 +62,13 @@ const Home = () => {
                 padding: "7px 10px",
                 borderRadius: "10px",
                 cursor: "pointer",
+                display: 'flex',
+                gap: "7px",
+                justifyContent:"center"
               }}
               key={"r" + room}
             >
-              Draw {room}
+              <PencilIcon style={{width: "1em"}}/> <span>{room}</span>
             </button>
           </Link>
         ))}
