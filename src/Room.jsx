@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-
+import { useParams } from 'react-router-dom';
 import './App.css'
 
 import { getStroke } from 'perfect-freehand'
@@ -8,9 +8,13 @@ import { getStroke } from 'perfect-freehand'
 import { db } from "./db";
 import { ref, set, child, get, onValue } from 'firebase/database';
 
-
-
+import { Link } from "react-router-dom";
+import {
+  
+  ArrowSmallLeftIcon,
+} from "@heroicons/react/24/outline";
 function Room() {
+  const { t, id} = useParams()
   const [pictures, setPictures] = useState([
     []
   ]);
@@ -69,9 +73,17 @@ function Room() {
   };
   useEffect(() => {
     readPicture()
+    console.log(id)
   }, [])
   return (
     <div>
+      <div className="controls-up">
+        <Link to="/">
+          <button  className="button">
+            <ArrowSmallLeftIcon />
+          </button>
+        </Link>
+      </div>
       <svg width={collageWidth} height={collageHeight} xmlns="http:/wwww3org/2000/svg">
         {createSVGCollage()}
       </svg>

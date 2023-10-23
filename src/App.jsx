@@ -5,7 +5,7 @@ import "./App.css";
 import { getStroke } from "perfect-freehand";
 import Draw from "./Draw";
 import Room from "./Room";
-
+import Home from './Home'
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 const inputPoints = [
@@ -97,9 +97,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/"></Route>
-        <Route path="draw/" element={<Draw />} />
-        <Route path="room" element={<Room />} />
+        <Route path="/" element={<Home />}></Route>
+        <Route path="draw/:id" element={<Draw />} />
+        <Route path="room/:id" element={<Room />} />
       </Routes>
       {/* <Route exact path="/room" component={Home} /> */}
     </Router>
