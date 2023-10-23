@@ -42,24 +42,30 @@ function Room() {
     return { x, y, scale };
   };
   const createSVGCollage = () => {
-    return pictures.map((p, pi) => {
-      const { x, y, scale } = generateRandomPlacement();
-      return (
-        <svg key={'pi' + pi} style={{
-          scale: `${scale}`,
-          transform: `translate(${x}%,${y}%)`
-        }}>
-          {
-            p.map((path, i) => (
-              <path key={'pi' + pi + 'p' + i} d={path} />
-            ))
-          }
+    // return pictures.map((p, pi) => {
+    //   const { x, y, scale } = generateRandomPlacement();
+    //   return (
+    //     <svg key={'pi' + pi} style={{
+    //       scale: `${scale}`,
+    //       transform: `translate(${x}%,${y}%)`
+    //     }}>
+    //       {
+    //         p.map((path, i) => (
+    //           <path key={'pi' + pi + 'p' + i} d={path} />
+    //         ))
+    //       }
 
 
-        </svg>
+    //     </svg>
 
-      );
-    });
+    //   );
+    // });
+
+
+
+    return (
+      <span>hola</span>
+    )
   };
   useEffect(() => {
     readPicture()
