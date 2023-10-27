@@ -7,14 +7,17 @@ import { getStroke } from 'perfect-freehand'
 
 import { db } from "./db";
 import { ref, set, child, get, onValue } from 'firebase/database';
-
+import Cell from './Row'
 import { Link } from "react-router-dom";
 import {
-  
+
   ArrowSmallLeftIcon,
 } from "@heroicons/react/24/outline";
+
+
+
 function Room() {
-  const { t, id} = useParams()
+  const { t, id } = useParams()
   const [pictures, setPictures] = useState([
     []
   ]);
@@ -45,20 +48,63 @@ function Room() {
 
     return { x, y, scale };
   };
+
+
+  const createTable = (arr) => {
+    var arr2 = []
+    for (let i = 0; i < arr.length; i++) { //a.length
+      arr2[i] = Cell(arr[i], arr.length)
+    }
+
+    return (
+      <div style={{
+        display: "flex",
+        alignItems: "center",
+        flexWrap: "wrap",
+        justifyContent: "center",
+        width: "100vw"
+      }}>
+        {(arr2)}
+      </div>
+    );
+  };
+
+  const createCollageStructure = (arr) => {
+    var x = 0
+    var arr2d = []
+    for (var i = 0; i < Math.floor(Math.sqrt(arr.length)); i++) {
+      arr2d.push([]);
+      console.log("Iteración 1i", i, "sqrt", Math.floor(Math.sqrt(arr.length)))
+      console.log("Round /2", arr.length / 2)
+      for (var j = 0; j <= (arr.length / 2); j++) { //Math.round(arr.length / 2)
+        if (x < arr.length) {
+          console.log("Valor x", x)
+          arr2d[i].push(arr[x])
+          x++
+          console.log("Iteración j", j, "div", arr.length / 2)
+          console.log("Arreglo 2d: ", arr2d[i])
+        }
+      }
+    }
+
+    return (arr2d);
+  }
+
   const createSVGCollage = () => {
     // return pictures.map((p, pi) => {
     //   const { x, y, scale } = generateRandomPlacement();
     //   return (
+
     //     <svg key={'pi' + pi} style={{
     //       scale: `${scale}`,
     //       transform: `translate(${x}%,${y}%)`
     //     }}>
+
     //       {
     //         p.map((path, i) => (
     //           <path key={'pi' + pi + 'p' + i} d={path} />
     //         ))
     //       }
-
 
     //     </svg>
 
@@ -66,27 +112,32 @@ function Room() {
     // });
 
 
-
-    return (
-      <span>hola</span>
-    )
-  };
+    //return función dado svg[[]]
+    return createTable(pictures);
+  }
   useEffect(() => {
     readPicture()
     console.log(id)
   }, [])
   return (
-    <div>
+    <div style={{
+      height: "100vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+
+    }}>
       <div className="controls-up">
         <Link to="/">
-          <button  className="button">
+          <button className="button">
             <ArrowSmallLeftIcon />
           </button>
         </Link>
       </div>
-      <svg width={collageWidth} height={collageHeight} xmlns="http:/wwww3org/2000/svg">
-        {createSVGCollage()}
-      </svg>
+      {/* <svg width={collageWidth} height={collageHeight} xmlns="http:/wwww3org/2000/svg">
+
+      </svg> */}
+      {createSVGCollage()}
     </div>
 
   )

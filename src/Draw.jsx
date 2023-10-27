@@ -70,24 +70,47 @@ function Draw() {
   const [color, setcolor] = useState("#000000");
 
   function handlePointerDown(e) {
-    console.log("pointer down");
+    const element = document.getElementById('canvas'); // Replace with the actual ID or reference to your element
+
+    // Get the coordinates
+    const rect = element.getBoundingClientRect();
+
+    // The x and y coordinates are relative to the viewport
+    const x = rect.left;
+    const y = rect.top;
+
+    console.log('X coordinate: ' + x);
+    console.log('Y coordinate: ' + y);
+    console.log("pointer down", e);
     e.target.setPointerCapture(e.pointerId);
     //console.log(e.pageX, e.pageY, e.pressure)
     //setPoints([[e.pageX, e.pageY, e.pressure]]);
     if (points.length) {
-      setPoints([...points, [[e.pageX, e.pageY, e.pressure]]]);
+      setPoints([...points, [[e.pageX - x, e.pageY - y, e.pressure]]]);
     } else {
-      setPoints([[[e.pageX, e.pageY, e.pressure]]]);
+      setPoints([[[e.pageX - x, e.pageY - y, e.pressure]]]);
     }
     setPathColors([...pathColors, color]);
   }
 
   function handlePointerMove(e) {
     if (e.buttons !== 1) return;
+    const element = document.getElementById('canvas'); // Replace with the actual ID or reference to your element
+
+    // Get the coordinates
+    const rect = element.getBoundingClientRect();
+
+    // The x and y coordinates are relative to the viewport
+    const x = rect.left;
+    const y = rect.top;
+
+    console.log('X coordinate: ' + x);
+    console.log('Y coordinate: ' + y);
+    console.log("pointer down", e);
 
     let p = points;
     let curr = p[points.length - 1];
-    let curr_new = [...curr, [e.pageX, e.pageY, e.pressure]];
+    let curr_new = [...curr, [e.pageX - x, e.pageY - y, e.pressure]];
     //curr = curr_new
     p[points.length - 1] = curr_new;
 
@@ -128,11 +151,23 @@ function Draw() {
   };
 
   return (
-    <div>
+    <div style={{
+      display: "flex",
+      alignItems: "center",
+      height: "100vh",
+      width: "100%",
+      justifyContent: "space-around"
+    }}>
       <svg
+        id="canvas"
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
-        style={{ touchAction: "none" }}
+        style={{
+          touchAction: "none",
+          width: "500px",
+          height: "500px",
+          border: "1px red solid"
+        }}
         className="container"
       >
         {pathDatum.map((path, i) => (
