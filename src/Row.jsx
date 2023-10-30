@@ -1,10 +1,13 @@
 const Cell = (a, l) => {
 
+    let b
+    const c = 100 / (Math.ceil(Math.sqrt(l)))
+    do { b = Math.round(Math.random() * 100, 0) } while ((b < 10) || (b > c))
+
     console.log("Esto es a", a, l)
     return (
-
         <div className="picture" style={{
-            width: `${100 / (Math.ceil(Math.sqrt(l)) + 1)}%`
+            width: `${b}%`
         }}
         >
             <svg viewBox="0 0 500 500">

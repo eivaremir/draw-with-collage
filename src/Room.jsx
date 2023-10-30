@@ -22,7 +22,8 @@ function Room() {
     []
   ]);
   const readPicture = () => {
-    const dbRef = ref(db, '/rooms/id1/pictures');
+    var roomId = 1
+    const dbRef = ref(db, '/rooms/id' + roomId + '/pictures');
     // get(child(dbRef, '/rooms/id1/pictures')).then((snapshot) => {
     //   {
     //     const data = snapshot.val();
