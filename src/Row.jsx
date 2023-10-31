@@ -1,17 +1,13 @@
-const Cell = (a, l) => {
 
-    let b
-    const c = 100 / (Math.ceil(Math.sqrt(l)))
-    do { b = Math.round(Math.random() * 100, 0) } while ((b < 10) || (b > c))
+const Cell = (arr, wid) => {
 
-    console.log("Esto es a", a, l)
     return (
         <div className="picture" style={{
-            width: `${b}%`
+            width: `${wid}%`
         }}
         >
             <svg viewBox="0 0 500 500">
-                {a.map((path) => (
+                {arr.map((path) => (
                     <path d={path} />
                 ))
                 }
@@ -22,7 +18,7 @@ const Cell = (a, l) => {
 
 function Row(arr) {
 
-    for (let i = 0; i < arr.length; i++) { //a.length
+    for (let i = 0; i < arr.length; i++) { //arr.length
         console.log("arr[", i, "]: ", arr[i])
         arr[i] = Cell(arr[i], arr.length)
     }

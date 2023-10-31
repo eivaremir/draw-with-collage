@@ -50,11 +50,24 @@ function Room() {
     return { x, y, scale };
   };
 
-
   const createTable = (arr) => {
     var arr2 = []
+    let wid, lastWid
+    //let numImage = arr.length
+
     for (let i = 0; i < arr.length; i++) { //a.length
-      arr2[i] = Cell(arr[i], arr.length)
+
+      const max = 100 / (Math.ceil(Math.sqrt(arr.length)))
+      do { wid = Math.round(Math.random() * 100, 0) } while ((wid < 10) || (wid > max))
+
+      if (i % 2 != 0) {
+        wid = (max - lastWid) + max
+      } else {
+        lastWid = wid
+      }
+
+      arr2[i] = Cell(arr[i], wid)
+
     }
 
     return (
