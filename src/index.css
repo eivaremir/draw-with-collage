@@ -4,9 +4,11 @@ html,
   padding: 0;
   margin: 0;
 }
-:root{
+
+:root {
   --buttons-size: 50px
 }
+
 body {
   user-select: none;
 }
@@ -21,14 +23,16 @@ svg.container {
   touch-action: none;
   /* border: 1px solid red; */
 }
-.controls-down{
+
+.controls-down {
   display: flex;
   position: fixed;
   right: 20px;
   bottom: 20px;
   gap: 7px
 }
-.controls-up{
+
+.controls-up {
   display: flex;
   position: fixed;
   left: 20px;
@@ -36,10 +40,12 @@ svg.container {
   gap: 7px
 }
 
-.controls-down svg,.controls-up svg{
+.controls-down svg,
+.controls-up svg {
   width: .7em;
 }
-button.button{
+
+button.button {
   color: white;
   border-radius: 50%;
   width: var(--buttons-size);
@@ -52,22 +58,83 @@ button.button{
   font-size: 2em;
 
 }
+
 @keyframes rotate {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
 
-.loadingIcon{
+.loadingIcon {
   animation: rotate 2s linear infinite;
 }
-.color{
+
+.color {
   width: var(--buttons-size);
   height: var(--buttons-size);
   border-radius: 50%;
   border: 0px;
-  cursor:pointer
+  cursor: pointer
+}
+
+.dialog-form {
+  position: fixed;
+  padding: 0.5rem;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  background: white;
+  border-radius: 0.25rem;
+  z-index: 10;
+  border: none;
+}
+
+.title-form {
+  text-align: center;
+  margin: 20px;
+}
+
+.input-form {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+.text-form {
+  margin-top: 20px;
+  margin-bottom: 35px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.button-form {
+  background-color: dimgray;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.xbutton-form {
+  color: white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background-color: dimgray;
+  color: white;
+  /* font-weight: 700; */
+  cursor: pointer;
+  font-size: 2em;
+
 }

@@ -12,6 +12,8 @@ import {
   ArrowSmallLeftIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+//import { Dialog } from "Dialog";
+import Contact from "./Contact";
 
 // Generate a random UUID
 function uuidv4() {
@@ -61,6 +63,7 @@ function Draw() {
   const [pathDatum, setPathDatum] = useState([[]]);
   const [pathColors, setPathColors] = useState([[]]);
   const [loading, setLoading] = useState(false);
+
   const [colors, setcolors] = useState([
     "#00FFFF",
     "#FF00FF",
@@ -132,12 +135,43 @@ function Draw() {
   //const pathData = getSvgPathFromStroke(stroke);
   const clear = () => {
     setPoints([[[]]]);
-    setPathDatum([]);
+    setPathDatum([[]]); //change from ([]) to ([[]])
     setPathColors([[]]);
   };
-  const addPicture = () => {
-    setLoading(true);
+  // const addPicture = () => {
+  //   setLoading(true);
+  //   var uuid = uuidv4();
+
+  //   set(ref(db, "/rooms/id1/pictures/" + uuid), pathDatum)
+  //     .then(() => {
+  //       console.log("Data written successfully");
+  //       setLoading(false);
+  //       clear();
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error writing data:", error);
+  //     });
+
+  // };
+
+
+  //const [datosRecibidos, setDatosRecibidos] = useState(null);
+
+  const recibirDatos = (nombre, contacto) => {
+
     var uuid = uuidv4();
+    const datos = { nombre, contacto };
+
+    set(ref(db, "/participant/id1/contact/" + uuid), datos)
+      .then(() => {
+        console.log("Data written successfully");
+        setLoading(false);
+        clear();
+        // setDatosRecibidos(datos);
+      })
+      .catch((error) => {
+        console.error("Error writing data:", error);
+      });
 
     set(ref(db, "/rooms/id1/pictures/" + uuid), pathDatum)
       .then(() => {
@@ -148,7 +182,9 @@ function Draw() {
       .catch((error) => {
         console.error("Error writing data:", error);
       });
+
   };
+
 
   return (
     <div style={{
@@ -197,10 +233,31 @@ function Draw() {
         <button onClick={clear} className="button">
           <TrashIcon />
         </button>
-        <button onClick={addPicture} className="button">
+
+        {/* <button onClick={() => { document.getElementById('idd').showModal() }} className="button">
           {!loading && <DocumentPlusIcon />}
           {loading && <ArrowPathIcon className="loadingIcon" />}
-        </button>
+        </button> */}
+
+        {console.log("PATHDATUM", pathDatum)}
+
+        {
+          pathDatum[0].length > 0 ? (<button onClick={() => { document.getElementById('idd').showModal() }} className="button">
+            {!loading && <DocumentPlusIcon />}
+            {loading && <ArrowPathIcon className="loadingIcon" />}
+          </button>) : (null)
+        }
+
+
+        <div>
+          <dialog id="idd" className="dialog-form">
+            <Contact onEnviar={recibirDatos} />
+          </dialog>
+        </div>
+
+
+
+
       </div>
     </div>
   );

@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
-import { PencilIcon,EyeIcon } from "@heroicons/react/24/outline";
+import { PencilIcon, EyeIcon } from "@heroicons/react/24/outline";
 const Home = () => {
   return (
     <div
       style={{
         width: "100vw",
         height: "100vh",
-
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -28,7 +27,7 @@ const Home = () => {
         }}
       >
         {[1, 2, 3].map((room) => (
-          <Link to={`room/${room}`} key={"r" + room} style={{textDecoration: "none"}}>
+          <Link to={`room/${room}`} key={"r" + room} style={{ textDecoration: "none" }}>
             <button
               style={{
                 border: "1px solid #d9d9d9",
@@ -38,10 +37,10 @@ const Home = () => {
                 cursor: "pointer",
                 display: 'flex',
                 gap: "7px",
-                justifyContent:"center"
+                justifyContent: "center"
               }}
             >
-              <EyeIcon style={{width: "1em"}}/> <span>{room}</span>
+              <EyeIcon style={{ width: "1em" }} /> <span>{room}</span>
             </button>
           </Link>
         ))}
@@ -54,7 +53,7 @@ const Home = () => {
         }}
       >
         {[1, 2, 3].map((room) => (
-          <Link to={`draw/${room}`} key={"d" + room} style={{textDecoration: "none"}}>
+          <Link to={`draw/${room}`} key={"d" + room} style={{ textDecoration: "none" }}>
             <button
               style={{
                 border: "1px solid #d9d9d9",
@@ -64,11 +63,11 @@ const Home = () => {
                 cursor: "pointer",
                 display: 'flex',
                 gap: "7px",
-                justifyContent:"center"
+                justifyContent: "center"
               }}
               key={"r" + room}
             >
-              <PencilIcon style={{width: "1em"}}/> <span>{room}</span>
+              <PencilIcon style={{ width: "1em" }} /> <span>{room}</span>
             </button>
           </Link>
         ))}
