@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import {
+    ArrowPathIcon,
     XMarkIcon
 } from "@heroicons/react/24/outline";
 
-
-function Contact({ onEnviar }) {
+function Contact({ onEnviar, loading, enviado, setEnviado }) {
     const [nombre, setNombre] = useState('');
     const [contacto, setContacto] = useState('');
-    const [enviado, setEnviado] = useState(false);
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -15,7 +15,7 @@ function Contact({ onEnviar }) {
         // console.log(`Nombre: ${nombre}`);
         // console.log(`Contacto: ${contacto}`);
         onEnviar(nombre, contacto);
-        setEnviado(true);
+
     };
 
     const closeForm = () => {
@@ -92,7 +92,12 @@ function Contact({ onEnviar }) {
                         display: "flex",
                         justifyContent: "center"
                     }}>
-                        <button type="submit" className='button-form'>Enviar</button>
+                        <button type="submit" className='button-form'>
+
+                            {!loading && 'Enviar'}
+                            {loading && <ArrowPathIcon className="loadingIcon" />}
+
+                        </button>
                         {
                             //<button onClick={closeForm} className='button-form'>Cerrar</button>
                         }

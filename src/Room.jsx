@@ -21,25 +21,33 @@ function Room() {
   const [pictures, setPictures] = useState([
     []
   ]);
+  const [colors, setColors] = useState([
+    []
+  ]);
+
   const readPicture = () => {
     var roomId = 1
-    const dbRef = ref(db, '/rooms/id' + roomId + '/pictures');
-    // get(child(dbRef, '/rooms/id1/pictures')).then((snapshot) => {
-    //   {
-    //     const data = snapshot.val();
-    //     setPictures(data)
-    //     //console.log("Datos leídos:", data);
-    //   }
-    // })
-    var resultado = [];
 
-    onValue(dbRef, (snapshot) => {
+    const pathRef = ref(db, '/rooms/id' + roomId + '/pictures');
+    onValue(pathRef, (snapshot) => {
+      const pathData = snapshot.val();
+      console.log("pathData", pathData);
+      if (pathData) setPictures(Object.values(pathData))
+    });
 
-      const data = snapshot.val();
-      console.log("data", data);
-      if (data) setPictures(Object.values(data))
+  }
+
+  const readColor = () => {
+    var roomId = 1
+
+    const colorRef = ref(db, '/rooms/id' + roomId + '/color');
+    onValue(colorRef, (snapshot) => {
+      const colorData = snapshot.val();
+      console.log("colorData", colorData);
+      if (colorData) setColors(Object.values(colorData))
     });
   }
+
   const collageWidth = 800; // Adjust as needed
   const collageHeight = 600; // Adjust as needed
   const generateRandomPlacement = () => {
@@ -50,14 +58,14 @@ function Room() {
     return { x, y, scale };
   };
 
-  const createTable = (arr) => {
-    var arr2 = []
+  const createTable = (pathArr, colorArr) => {
+    var pathArr2 = []
     let wid, lastWid
-    //let numImage = arr.length
+    //let numImage = pathArr.length
 
-    for (let i = 0; i < arr.length; i++) { //a.length
+    for (let i = 0; i < pathArr.length; i++) { //a.length
 
-      const max = 100 / (Math.ceil(Math.sqrt(arr.length)))
+      const max = 100 / (Math.ceil(Math.sqrt(pathArr.length)))
       do { wid = Math.round(Math.random() * 100, 0) } while ((wid < 10) || (wid > max))
 
       if (i % 2 != 0) {
@@ -66,7 +74,8 @@ function Room() {
         lastWid = wid
       }
 
-      arr2[i] = Cell(arr[i], wid)
+
+      pathArr2[i] = Cell(pathArr[i], wid, colorArr[i])
 
     }
 
@@ -78,7 +87,7 @@ function Room() {
         justifyContent: "center",
         width: "100vw"
       }}>
-        {(arr2)}
+        {(pathArr2)}
       </div>
     );
   };
@@ -127,10 +136,11 @@ function Room() {
 
 
     //return función dado svg[[]]
-    return createTable(pictures);
+    return createTable(pictures, colors);
   }
   useEffect(() => {
     readPicture()
+    readColor()
     console.log(id)
   }, [])
   return (

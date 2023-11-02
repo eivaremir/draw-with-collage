@@ -63,14 +63,15 @@ function Draw() {
   const [pathDatum, setPathDatum] = useState([[]]);
   const [pathColors, setPathColors] = useState([[]]);
   const [loading, setLoading] = useState(false);
-
+  const [enviado, setEnviado] = useState(false);
   const [colors, setcolors] = useState([
-    "#00FFFF",
-    "#FF00FF",
-    "#FFFF00",
-    "#000000",
+    "#FCB449",
+    "#8293CA",
+    "#08B3E2", "#E3E3E3", "#EE2D30",
+    "#9ACB57", "#5763AD",
+    "#1E4592", "#2CBCAF",
   ]);
-  const [color, setcolor] = useState("#000000");
+  const [color, setcolor] = useState("#FCB449");
 
   function handlePointerDown(e) {
     const element = document.getElementById('canvas'); // Replace with the actual ID or reference to your element
@@ -158,15 +159,14 @@ function Draw() {
   //const [datosRecibidos, setDatosRecibidos] = useState(null);
 
   const recibirDatos = (nombre, contacto) => {
-
+    setLoading(true);
     var uuid = uuidv4();
     const datos = { nombre, contacto };
 
     set(ref(db, "/participant/id1/contact/" + uuid), datos)
       .then(() => {
         console.log("Data written successfully");
-        setLoading(false);
-        clear();
+
         // setDatosRecibidos(datos);
       })
       .catch((error) => {
@@ -175,9 +175,20 @@ function Draw() {
 
     set(ref(db, "/rooms/id1/pictures/" + uuid), pathDatum)
       .then(() => {
-        console.log("Data written successfully");
         setLoading(false);
         clear();
+        setEnviado(true)
+        console.log("Data written successfully");
+
+      })
+      .catch((error) => {
+        console.error("Error writing data:", error);
+      });
+
+    set(ref(db, "/rooms/id1/color/" + uuid), pathColors)
+      .then(() => {
+        console.log("Data written successfully");
+
       })
       .catch((error) => {
         console.error("Error writing data:", error);
@@ -251,7 +262,12 @@ function Draw() {
 
         <div>
           <dialog id="idd" className="dialog-form">
-            <Contact onEnviar={recibirDatos} />
+            <Contact
+              loading={loading}
+              onEnviar={recibirDatos}
+              enviado={enviado}
+              setEnviado={setEnviado}
+            />
           </dialog>
         </div>
 

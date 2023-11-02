@@ -1,5 +1,5 @@
 
-const Cell = (arr, wid) => {
+const Cell = (pathDatum, wid, pathColors) => {
 
     return (
         <div className="picture" style={{
@@ -7,10 +7,15 @@ const Cell = (arr, wid) => {
         }}
         >
             <svg viewBox="0 0 500 500">
-                {arr.map((path) => (
+
+                {pathDatum.map((path, i) => (
+                    <path key={"p" + i} d={path} fill={pathColors[i]} />
+                ))}
+
+                {/* {pathDatum.map((path) => (
                     <path d={path} />
                 ))
-                }
+                } */}
             </svg></div>
     )
 }
