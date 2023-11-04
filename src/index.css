@@ -12,7 +12,13 @@ html,
 body {
   user-select: none;
 }
-
+#root{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+    width: 100%;
+}
 svg.container {
   /* position: fixed; */
   top: 0;

@@ -4,17 +4,19 @@ import './App.css'
 
 import { getStroke } from 'perfect-freehand'
 
-
+import ImageContainer from './ImageContainer';
+import Image from './Image';
 import { db } from "./db";
 import { ref, set, child, get, onValue } from 'firebase/database';
 import Cell from './Row'
 import { Link } from "react-router-dom";
 import {
-
+  ArrowPathIcon,
   ArrowSmallLeftIcon,
 } from "@heroicons/react/24/outline";
 
 
+const getWidth = (n)=>100 / (Math.ceil(Math.sqrt(n)))
 
 function Room() {
   const { t, id } = useParams()
@@ -24,6 +26,11 @@ function Room() {
   const [colors, setColors] = useState([
     []
   ]);
+  const [collagePlan, setCollagePlan] = useState([
+    []
+  ]);
+  const [loading, setloading] = useState(true);
+  const [cloading, setcloading] = useState(true);
 
   const readPicture = () => {
     var roomId = 1
@@ -31,8 +38,9 @@ function Room() {
     const pathRef = ref(db, '/rooms/id' + roomId + '/pictures');
     onValue(pathRef, (snapshot) => {
       const pathData = snapshot.val();
-      console.log("pathData", pathData);
+      
       if (pathData) setPictures(Object.values(pathData))
+      setloading(false)
     });
 
   }
@@ -43,8 +51,9 @@ function Room() {
     const colorRef = ref(db, '/rooms/id' + roomId + '/color');
     onValue(colorRef, (snapshot) => {
       const colorData = snapshot.val();
-      console.log("colorData", colorData);
+      
       if (colorData) setColors(Object.values(colorData))
+      setcloading(false)
     });
   }
 
@@ -97,15 +106,15 @@ function Room() {
     var arr2d = []
     for (var i = 0; i < Math.floor(Math.sqrt(arr.length)); i++) {
       arr2d.push([]);
-      console.log("Iteración 1i", i, "sqrt", Math.floor(Math.sqrt(arr.length)))
-      console.log("Round /2", arr.length / 2)
+      
+      
       for (var j = 0; j <= (arr.length / 2); j++) { //Math.round(arr.length / 2)
         if (x < arr.length) {
-          console.log("Valor x", x)
+          
           arr2d[i].push(arr[x])
           x++
-          console.log("Iteración j", j, "div", arr.length / 2)
-          console.log("Arreglo 2d: ", arr2d[i])
+          
+          
         }
       }
     }
@@ -114,26 +123,6 @@ function Room() {
   }
 
   const createSVGCollage = () => {
-    // return pictures.map((p, pi) => {
-    //   const { x, y, scale } = generateRandomPlacement();
-    //   return (
-
-    //     <svg key={'pi' + pi} style={{
-    //       scale: `${scale}`,
-    //       transform: `translate(${x}%,${y}%)`
-    //     }}>
-
-    //       {
-    //         p.map((path, i) => (
-    //           <path key={'pi' + pi + 'p' + i} d={path} />
-    //         ))
-    //       }
-
-    //     </svg>
-
-    //   );
-    // });
-
 
     //return función dado svg[[]]
     return createTable(pictures, colors);
@@ -141,15 +130,34 @@ function Room() {
   useEffect(() => {
     readPicture()
     readColor()
-    console.log(id)
+    
   }, [])
+
+  useEffect(()=>{
+    let arr = pictures.map((_,i)=> i)
+    let arr2 = []
+    
+    for(let a = 0; a<arr.length; a++){
+        let randomValue = Math.random();
+        let result = randomValue < 0.5 ? 1 : 4;
+        let subarr = []
+        for(let b = a; b< a+result; b++) {
+          // if (pictures[b])
+          subarr.push(arr[b])
+        }
+        arr2.push(subarr)
+        a+=result-1
+    }
+    setCollagePlan(arr2)
+  },pictures)
   return (
     <div style={{
-      height: "100vh",
+      
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-
+      flexWrap:'wrap',
+      width: "75%"
     }}>
       <div className="controls-up">
         <Link to="/">
@@ -158,10 +166,29 @@ function Room() {
           </button>
         </Link>
       </div>
-      {/* <svg width={collageWidth} height={collageHeight} xmlns="http:/wwww3org/2000/svg">
 
-      </svg> */}
-      {createSVGCollage()}
+      {(loading || cloading) && <ArrowPathIcon style={{width:"10%"}} className="loadingIcon" />}
+
+
+      {
+        !(loading || cloading) && collagePlan.map((pics)=>{
+
+          let basis = pics.length > 1 ? 50 : 100
+          return (
+            <ImageContainer key={"container"+pics} width={getWidth(collagePlan.length)+"%"}>
+              {
+                pics.map(p =>  <Image key={"picure"+p} basis={basis} pathDatum={pictures[p]} pathColors={colors[p]}/>)
+              }
+            </ImageContainer>
+          )
+        })
+      }
+
+
+
+
+
+
     </div>
 
   )
