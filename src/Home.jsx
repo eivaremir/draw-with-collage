@@ -26,7 +26,7 @@ const Home = () => {
           margin: "15px 0px",
         }}
       >
-        {[1, 2, 3].map((room) => (
+        {[1].map((room) => (
           <Link to={`room/${room}`} key={"r" + room} style={{ textDecoration: "none" }}>
             <button
               style={{
@@ -52,7 +52,7 @@ const Home = () => {
           margin: "15px 0px",
         }}
       >
-        {[1, 2, 3].map((room) => (
+        {[1].map((room) => (
           <Link to={`draw/${room}`} key={"d" + room} style={{ textDecoration: "none" }}>
             <button
               style={{
