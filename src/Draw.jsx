@@ -26,10 +26,10 @@ function uuidv4() {
 
 const options = {
   size: 7.5,
-  thinning: 1,
-  smoothing: 1,
-  streamline: 1,
-  easing: (t) => t,
+  //thinning: 1,
+  //smoothing: 1,
+  //streamline: 1,
+  //easing: (t) => t,
   // start: {
   //   taper: 0,
   //   easing: (t) => t,
