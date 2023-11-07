@@ -25,7 +25,7 @@ function uuidv4() {
 }
 
 const options = {
-  size: 3.5,
+  size: 7.5,
   thinning: 1,
   smoothing: 1,
   streamline: 1,
