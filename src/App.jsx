@@ -7,6 +7,7 @@ import Draw from "./Draw";
 import Room from "./Room";
 import Home from './Home';
 import Test from './Test';
+import Sorting from './Sorting';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 const inputPoints = [
@@ -101,6 +102,7 @@ function App() {
         <Route path="/" element={<Home />}></Route>
         <Route path="draw/:id" element={<Draw />} />
         <Route path="room/:id" element={<Room />} />
+        <Route path="sorting" element={<Sorting />} />
         <Route path="test" element={<Test />} />
       </Routes>
       {/* <Route exact path="/room" component={Home} /> */}

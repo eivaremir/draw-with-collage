@@ -27,7 +27,11 @@ const Home = () => {
         }}
       >
         {[1].map((room) => (
-          <Link to={`room/${room}`} key={"r" + room} style={{ textDecoration: "none" }}>
+          <Link
+            to={`room/${room}`}
+            key={"r" + room}
+            style={{ textDecoration: "none" }}
+          >
             <button
               style={{
                 border: "1px solid #d9d9d9",
@@ -35,9 +39,9 @@ const Home = () => {
                 padding: "7px 10px",
                 borderRadius: "10px",
                 cursor: "pointer",
-                display: 'flex',
+                display: "flex",
                 gap: "7px",
-                justifyContent: "center"
+                justifyContent: "center",
               }}
             >
               <EyeIcon style={{ width: "1em" }} /> <span>{room}</span>
@@ -53,7 +57,11 @@ const Home = () => {
         }}
       >
         {[1].map((room) => (
-          <Link to={`draw/${room}`} key={"d" + room} style={{ textDecoration: "none" }}>
+          <Link
+            to={`draw/${room}`}
+            key={"d" + room}
+            style={{ textDecoration: "none" }}
+          >
             <button
               style={{
                 border: "1px solid #d9d9d9",
@@ -61,9 +69,9 @@ const Home = () => {
                 padding: "7px 10px",
                 borderRadius: "10px",
                 cursor: "pointer",
-                display: 'flex',
+                display: "flex",
                 gap: "7px",
-                justifyContent: "center"
+                justifyContent: "center",
               }}
               key={"r" + room}
             >
@@ -71,6 +79,30 @@ const Home = () => {
             </button>
           </Link>
         ))}
+      </div>
+      <div
+        style={{
+          display: "flex",
+          gap: "3px",
+          margin: "15px 0px",
+        }}
+      >
+        <Link to={`sorting`} style={{ textDecoration: "none" }}>
+          <button
+            style={{
+              border: "1px solid #d9d9d9",
+              background: "white",
+              padding: "7px 10px",
+              borderRadius: "10px",
+              cursor: "pointer",
+              display: "flex",
+              gap: "7px",
+              justifyContent: "center",
+            }}
+          >
+            <span>Sorteo</span>
+          </button>
+        </Link>
       </div>
     </div>
   );
